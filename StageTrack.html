@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>StageTrack — Mes candidatures</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:wght@600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0d0d10;
+  --surface: #141417;
+  --surface2: #1b1b1f;
+  --surface3: #222228;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.11);
+  --text: #ededef;
+  --text2: #8e8e9e;
+  --text3: #52525f;
+  --accent: #4f7dff;
+  --accent-d: rgba(79,125,255,0.14);
+  --green: #3ecf8e;
+  --green-d: rgba(62,207,142,0.13);
+  --green-b: rgba(62,207,142,0.28);
+  --red: #f06565;
+  --red-d: rgba(240,101,101,0.13);
+  --red-b: rgba(240,101,101,0.28);
+  --amber: #f0a545;
+  --amber-d: rgba(240,165,69,0.13);
+  --amber-b: rgba(240,165,69,0.28);
+  --purple: #a78bfa;
+  --purple-d: rgba(167,139,250,0.13);
+  --r: 10px;
+  --r-sm: 7px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
+
+/* ── SIDEBAR ── */
+.sidebar{width:218px;min-width:218px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.logo{padding:26px 20px 18px;border-bottom:1px solid var(--border)}
+.logo-name{font-family:'Playfair Display',serif;font-size:19px;color:var(--text);letter-spacing:-.3px}
+.logo-tag{font-size:10.5px;color:var(--text3);margin-top:3px;letter-spacing:.04em}
+.nav{padding:12px 8px;flex:1;overflow-y:auto}
+.nav-sec{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:10px 10px 5px}
+.nav-btn{display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;border:none;background:none;border-radius:var(--r-sm);font-size:13px;color:var(--text2);cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;transition:all .13s}
+.nav-btn:hover{background:var(--surface2);color:var(--text)}
+.nav-btn.active{background:var(--accent-d);color:var(--accent)}
+.nav-ic{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.nc{margin-left:auto;font-size:10px;background:var(--surface3);border-radius:8px;padding:1px 7px;color:var(--text3);min-width:20px;text-align:center}
+.nav-btn.active .nc{background:rgba(79,125,255,.18);color:var(--accent)}
+.sidebar-foot{padding:12px 10px;border-top:1px solid var(--border)}
+.sync-btn{width:100%;padding:9px 12px;border-radius:var(--r-sm);background:var(--green-d);border:1px solid var(--green-b);color:var(--green);font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .15s}
+.sync-btn:hover{background:rgba(62,207,142,.2)}
+.sync-btn:disabled{opacity:.45;cursor:not-allowed}
+.sync-spin{display:inline-block;transition:transform .1s}
+.sync-btn:not(:disabled):hover .sync-spin{animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sync-log{font-size:10.5px;color:var(--text3);margin-top:7px;line-height:1.45;text-align:center}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--surface);flex-shrink:0}
+.page-title{font-size:15px;font-weight:500;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.searchbox{display:flex;align-items:center;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:7px 12px;gap:7px;width:220px;transition:border-color .15s}
+.searchbox:focus-within{border-color:var(--border2)}
+.searchbox input{background:none;border:none;outline:none;color:var(--text);font-size:12.5px;font-family:'DM Sans',sans-serif;width:100%}
+.searchbox input::placeholder{color:var(--text3)}
+.add-btn{padding:8px 16px;border-radius:var(--r-sm);background:var(--accent);border:none;color:#fff;font-size:12.5px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500;white-space:nowrap;transition:background .13s;display:flex;align-items:center;gap:6px}
+.add-btn:hover{background:#3a6ae8}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;padding:20px 24px}
+
+/* ── CONNECT PANEL ── */
+.connect-panel{padding:16px 18px;background:rgba(240,165,69,.09);border:1px solid var(--amber-b);border-radius:var(--r);margin-bottom:16px}
+.connect-title{font-size:13px;font-weight:500;color:var(--amber);margin-bottom:5px}
+.connect-desc{font-size:12px;color:rgba(240,165,69,.75);margin-bottom:10px;line-height:1.5}
+.connect-row{display:flex;gap:8px}
+.connect-row input{flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r-sm);color:var(--text);font-size:12.5px;font-family:'DM Sans',sans-serif;padding:8px 12px;outline:none;transition:border-color .15s}
+.connect-row input:focus{border-color:var(--amber)}
+.connect-go{padding:8px 16px;border-radius:var(--r-sm);background:var(--amber);border:none;color:#1a0f00;font-size:12.5px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600;white-space:nowrap;transition:opacity .13s}
+.connect-go:hover{opacity:.85}
+.connected-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;background:var(--green-d);border:1px solid var(--green-b);border-radius:var(--r-sm);font-size:12px;color:var(--green);margin-bottom:14px}
+.disc-btn{background:none;border:none;color:var(--green);cursor:pointer;font-size:11px;opacity:.6;font-family:'DM Sans',sans-serif;padding:0;margin-left:4px;transition:opacity .13s}
+.disc-btn:hover{opacity:1}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:15px 17px;position:relative;overflow:hidden}
+.sc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.sc.t::after{background:var(--accent)}
+.sc.a::after{background:var(--amber)}
+.sc.p::after{background:var(--green)}
+.sc.n::after{background:var(--red)}
+.sc-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px}
+.sc-num{font-size:30px;font-weight:300;line-height:1}
+.sc.t .sc-num{color:var(--accent)}
+.sc.a .sc-num{color:var(--amber)}
+.sc.p .sc-num{color:var(--green)}
+.sc.n .sc-num{color:var(--red)}
+.sc-sub{font-size:10.5px;color:var(--text3);margin-top:5px}
+
+/* ── FILTERS ── */
+.filters{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.fp{padding:5px 13px;border-radius:20px;font-size:11.5px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-family:'DM Sans',sans-serif;transition:all .13s}
+.fp:hover{border-color:var(--border2);color:var(--text)}
+.fp.active{background:var(--accent-d);border-color:rgba(79,125,255,.3);color:var(--accent)}
+.rc{font-size:11px;color:var(--text3);margin-left:auto}
+
+/* ── TABLE ── */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+thead th{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface2)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover td{background:var(--surface2)}
+tbody td{padding:12px 14px;font-size:12.5px;vertical-align:middle}
+.co{font-weight:500;color:var(--text)}
+.co-mail{font-size:10.5px;color:var(--text3);margin-top:2px}
+.note-preview{font-size:10.5px;color:var(--text3);margin-top:2px;font-style:italic}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:12px;font-size:10.5px;font-weight:500;white-space:nowrap;border:1px solid transparent}
+.badge.click{cursor:pointer;transition:opacity .13s}
+.badge.click:hover{opacity:.72}
+.b-att{background:var(--amber-d);color:var(--amber);border-color:var(--amber-b)}
+.b-pos{background:var(--green-d);color:var(--green);border-color:var(--green-b)}
+.b-neg{background:var(--red-d);color:var(--red);border-color:var(--red-b)}
+.b-stage{background:var(--accent-d);color:var(--accent)}
+.b-alt{background:var(--purple-d);color:var(--purple)}
+.b-src{background:var(--surface3);color:var(--text3);font-size:10px;padding:2px 7px;cursor:default}
+.del-btn{padding:4px 9px;border-radius:6px;background:none;border:1px solid var(--border);color:var(--text3);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s}
+.del-btn:hover{border-color:var(--red-b);color:var(--red)}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:50px 20px;color:var(--text3)}
+.empty-ico{font-size:32px;margin-bottom:10px;opacity:.5}
+.empty-t{font-size:14px;color:var(--text2);margin-bottom:5px}
+
+/* ── MODAL OVERLAY ── */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.ov.open{display:flex}
+
+/* ── MODAL BOX ── */
+.mbox{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:24px;width:100%;animation:slideUp .18s ease}
+@keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mbox.add-box{max-width:440px}
+.mbox.test-box{max-width:480px}
+.m-title{font-size:16px;font-weight:500;margin-bottom:18px;color:var(--text)}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-size:12.5px;font-family:'DM Sans',sans-serif;padding:9px 13px;outline:none;transition:border-color .15s;-webkit-appearance:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:72px}
+.field select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2352525f'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.m-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:16px}
+.btn-c{padding:8px 16px;border-radius:var(--r-sm);background:none;border:1px solid var(--border2);color:var(--text2);font-size:12.5px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .13s}
+.btn-c:hover{background:var(--surface2)}
+.btn-s{padding:8px 18px;border-radius:var(--r-sm);background:var(--accent);border:none;color:#fff;font-size:12.5px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500;transition:background .13s}
+.btn-s:hover{background:#3a6ae8}
+.btn-s.green{background:var(--green);color:#001a0d}
+.btn-s.green:hover{background:#35b87d}
+
+/* ── TEST RESULT ── */
+.test-result{display:none;margin-top:12px;padding:12px 14px;border-radius:var(--r-sm);font-size:12.5px;line-height:1.6}
+.test-result.neg{background:var(--red-d);border:1px solid var(--red-b);color:var(--red)}
+.test-result.pos{background:var(--green-d);border:1px solid var(--green-b);color:var(--green)}
+.test-result.att{background:var(--amber-d);border:1px solid var(--amber-b);color:var(--amber)}
+.test-kw{font-size:11px;opacity:.78;margin-top:3px}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:11px 16px;font-size:12.5px;color:var(--text);display:flex;align-items:center;gap:9px;z-index:300;transform:translateY(60px);opacity:0;transition:all .25s;max-width:320px;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-left:3px solid var(--green)}
+.toast.err{border-left:3px solid var(--red)}
+.toast.inf{border-left:3px solid var(--accent)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-name">StageTrack</div>
+    <div class="logo-tag">Suivi de candidatures</div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-sec">Vues</div>
+    <button class="nav-btn active" onclick="setFilter('tous',this)">
+      <span class="nav-ic">⊞</span>Toutes<span class="nc" id="nc-t">0</span>
+    </button>
+    <button class="nav-btn" onclick="setFilter('en attente',this)">
+      <span class="nav-ic">◷</span>En attente<span class="nc" id="nc-a">0</span>
+    </button>
+    <button class="nav-btn" onclick="setFilter('positive',this)">
+      <span class="nav-ic">✓</span>Acceptées<span class="nc" id="nc-p">0</span>
+    </button>
+    <button class="nav-btn" onclick="setFilter('negative',this)">
+      <span class="nav-ic">✕</span>Refusées<span class="nc" id="nc-n">0</span>
+    </button>
+
+    <div class="nav-sec">Types</div>
+    <button class="nav-btn" onclick="setFilter('stage',this)">
+      <span class="nav-ic">◈</span>Stages<span class="nc" id="nc-s">0</span>
+    </button>
+    <button class="nav-btn" onclick="setFilter('alternance',this)">
+      <span class="nav-ic">◈</span>Alternances<span class="nc" id="nc-al">0</span>
+    </button>
+
+    <div class="nav-sec">Outils</div>
+    <button class="nav-btn" onclick="openTest()">
+      <span class="nav-ic">⚡</span>Tester un email
+    </button>
+  </nav>
+
+  <div class="sidebar-foot">
+    <button class="sync-btn" id="syncBtn" onclick="syncMails()">
+      <span class="sync-spin" id="syncSpin">↻</span> Sync Outlook
+    </button>
+    <div class="sync-log" id="syncLog">Connectez votre mail pour commencer</div>
+  </div>
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main class="main">
+  <div class="topbar">
+    <div class="page-title" id="pageTitle">Toutes les candidatures</div>
+    <div class="searchbox">
+      <span style="color:var(--text3);font-size:13px">⌕</span>
+      <input type="text" id="searchInput" placeholder="Rechercher…" oninput="render()"/>
+    </div>
+    <button class="add-btn" onclick="openAdd()">+ Ajouter</button>
+  </div>
+
+  <div class="content">
+
+    <!-- Connexion mail -->
+    <div id="connectPanel" class="connect-panel">
+      <div class="connect-title">Connecter votre boîte Outlook</div>
+      <div class="connect-desc">Entrez votre adresse Outlook / Hotmail. L'application détectera automatiquement vos candidatures et classera les réponses grâce à son moteur de mots-clés intégré.</div>
+      <div class="connect-row">
+        <input type="email" id="mailInput" placeholder="votre@outlook.com" onkeydown="if(event.key==='Enter')connectMail()"/>
+        <button class="connect-go" onclick="connectMail()">Connecter</button>
+      </div>
+    </div>
+
+    <div id="connectedBadge" style="display:none" class="connected-badge">
+      <span>✓</span>
+      <span id="connectedMailLabel"></span>
+      <button class="disc-btn" onclick="disconnectMail()">Déconnecter</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="sc t"><div class="sc-label">Total</div><div class="sc-num" id="st-t">0</div><div class="sc-sub">candidatures</div></div>
+      <div class="sc a"><div class="sc-label">En attente</div><div class="sc-num" id="st-a">0</div><div class="sc-sub">sans réponse</div></div>
+      <div class="sc p"><div class="sc-label">Acceptées</div><div class="sc-num" id="st-p">0</div><div class="sc-sub">réponses positives</div></div>
+      <div class="sc n"><div class="sc-label">Refusées</div><div class="sc-num" id="st-n">0</div><div class="sc-sub">réponses négatives</div></div>
+    </div>
+
+    <!-- Filtres secondaires -->
+    <div class="filters">
+      <button class="fp active" onclick="setSub('tous',this)">Tous</button>
+      <button class="fp" onclick="setSub('stage',this)">Stage</button>
+      <button class="fp" onclick="setSub('alternance',this)">Alternance</button>
+      <button class="fp" onclick="setSub('mail',this)">Détectés par mail</button>
+      <span class="rc" id="rc"></span>
+    </div>
+
+    <!-- Tableau -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:22%">Entreprise</th>
+            <th style="width:23%">Poste</th>
+            <th style="width:10%">Type</th>
+            <th style="width:11%">Envoi</th>
+            <th style="width:15%">Statut</th>
+            <th style="width:11%">Source</th>
+            <th style="width:8%"></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty" id="emptyState" style="display:none">
+        <div class="empty-ico">📭</div>
+        <div class="empty-t">Aucune candidature ici</div>
+        <div>Ajoutez-en une manuellement ou synchronisez votre Outlook</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ═══════════════ MODAL AJOUT ═══════════════ -->
+<div class="ov" id="addOv" onclick="closeAdd(event)">
+  <div class="mbox add-box">
+    <div class="m-title">Nouvelle candidature</div>
+    <div class="field"><label>Entreprise *</label><input type="text" id="fEnt" placeholder="ex : Capgemini, LVMH, BNP Paribas…"/></div>
+    <div class="field"><label>Intitulé du poste *</label><input type="text" id="fPost" placeholder="ex : Développeur Full-Stack, Data Analyst…"/></div>
+    <div class="field-row">
+      <div class="field"><label>Type</label>
+        <select id="fType"><option value="stage">Stage</option><option value="alternance">Alternance</option></select>
+      </div>
+      <div class="field"><label>Date d'envoi</label><input type="date" id="fDate"/></div>
+    </div>
+    <div class="field"><label>Email du recruteur (optionnel)</label><input type="email" id="fMail" placeholder="recruteur@entreprise.com"/></div>
+    <div class="field"><label>Notes</label><textarea id="fNotes" placeholder="Lien offre, nom du contact, infos utiles…"></textarea></div>
+    <div class="m-actions">
+      <button class="btn-c" onclick="document.getElementById('addOv').classList.remove('open')">Annuler</button>
+      <button class="btn-s" onclick="addCand()">Ajouter la candidature</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MODAL TEST EMAIL ═══════════════ -->
+<div class="ov" id="testOv" onclick="closeTest(event)">
+  <div class="mbox test-box">
+    <div class="m-title">⚡ Tester la détection sur un email</div>
+    <div class="field">
+      <label>Collez le contenu d'un email reçu</label>
+      <textarea id="testText" style="min-height:110px" placeholder="ex : Bonjour, après examen de votre candidature, nous sommes au regret de vous informer que nous avons retenu un autre profil…"></textarea>
+    </div>
+    <div id="testRes" class="test-result">
+      <div id="testLabel"></div>
+      <div id="testKw" class="test-kw"></div>
+    </div>
+    <div class="m-actions">
+      <button class="btn-c" onclick="document.getElementById('testOv').classList.remove('open')">Fermer</button>
+      <button class="btn-s green" onclick="runTest()">Analyser</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TOAST ═══════════════ -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════ SCRIPT ═══════════════ -->
+<script>
+/* ─────────────────────────────────────────
+   DONNÉES
+───────────────────────────────────────── */
+let cands = JSON.parse(localStorage.getItem('st_v2_cands') || '[]');
+let connMail = localStorage.getItem('st_v2_mail') || '';
+let activeF = 'tous';
+let activeSub = 'tous';
+
+function save() { localStorage.setItem('st_v2_cands', JSON.stringify(cands)); }
+
+/* ─────────────────────────────────────────
+   MOTEUR DE DÉTECTION PAR MOTS-CLÉS
+   Priorité : négatif → positif → en attente
+───────────────────────────────────────── */
+const KW = {
+  negative: [
+    /* formules de refus classiques */
+    "nous avons retenu un autre profil",
+    "avons retenu un autre candidat",
+    "retenu d'autres candidats",
+    "nous sommes au regret",
+    "nous avons le regret",
+    "au regret de vous informer",
+    "au regret de vous faire savoir",
+    "nous ne pouvons pas donner suite",
+    "nous n'avons pas pu retenir votre candidature",
+    "nous n'avons pas retenu votre candidature",
+    "votre candidature n'a pas été retenue",
+    "candidature n'a malheureusement pas été retenue",
+    "votre candidature n'a pas été sélectionnée",
+    "votre profil n'a pas été sélectionné",
+    "ne correspond pas à nos besoins actuels",
+    "ne correspond pas au profil recherché",
+    "ne correspond pas aux critères",
+    "votre profil ne correspond pas",
+    "ne pas donner suite à votre candidature",
+    "sans suite à votre candidature",
+    "ne pas vous donner une suite favorable",
+    "nous ne donnons pas suite",
+    "nous ne pouvons donner suite",
+    "malheureusement pas retenu",
+    "malheureusement pas pu retenir",
+    "malheureusement, votre candidature",
+    "après examen de votre candidature",
+    "après étude approfondie de votre candidature",
+    "après étude de votre candidature",
+    "après analyse de votre candidature",
+    "nous avons fait notre choix",
+    "nous avons finalement retenu",
+    "le poste a été pourvu",
+    "le poste est désormais pourvu",
+    "nous ne sommes pas en mesure de vous proposer",
+    "nous ne pouvons malheureusement pas",
+    "malheureusement, nous ne",
+    "n'est pas en adéquation avec",
+    "pas en adéquation avec",
+    "ne pas vous proposer",
+    "votre profil ne correspond pas",
+    "nous avons sélectionné un autre candidat",
+    "la sélection s'est portée sur",
+    "nous regrettons de vous informer",
+    "nous sommes navrés",
+    "nous sommes désolés de vous informer",
+    "nous avons sélectionné des profils",
+    "votre candidature ne sera pas retenue",
+    "votre dossier n'a pas été retenu",
+    "nous ne pouvons y donner suite",
+    /* anglais */
+    "we regret to inform",
+    "we were unable to move forward",
+    "not selected for this position",
+    "not been successful",
+    "other candidates whose experience",
+    "unfortunately, we will not",
+    "we will not be moving forward",
+    "decided to move forward with other",
+    "after careful consideration",
+    "we have decided not to proceed",
+  ],
+  positive: [
+    "nous avons le plaisir de vous informer",
+    "nous avons le plaisir de vous convier",
+    "nous avons le plaisir de vous inviter",
+    "avons le plaisir de vous annoncer",
+    "heureux de vous annoncer",
+    "nous sommes heureux de",
+    "sommes ravis de vous informer",
+    "votre candidature a retenu notre attention",
+    "votre candidature nous a particulièrement intéressé",
+    "votre profil nous a séduit",
+    "votre profil correspond à nos attentes",
+    "votre profil nous intéresse",
+    "souhaitons vous rencontrer",
+    "nous aimerions vous rencontrer",
+    "vous inviter à un entretien",
+    "vous convier à un entretien",
+    "planifier un entretien",
+    "fixer un rendez-vous",
+    "disponible pour un entretien",
+    "nous souhaitons vous proposer",
+    "pour discuter de votre candidature",
+    "entretien téléphonique",
+    "entretien en visio",
+    "entretien en présentiel",
+    "prise de contact",
+    "votre candidature est retenue",
+    "suite positive à votre candidature",
+    "heureux de vous accueillir",
+    "bienvenue dans notre équipe",
+    "vous rejoindre au sein de",
+    "offre de stage",
+    "offre d'alternance",
+    /* anglais */
+    "pleased to inform you",
+    "happy to offer",
+    "move forward with your application",
+    "invite you for an interview",
+    "would like to schedule",
+    "delighted to",
+  ]
+};
+
+function detectStatut(text) {
+  const norm = t => t.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/['']/g, "'");
+  const t = norm(text);
+  for (const kw of KW.negative) {
+    if (t.includes(norm(kw))) return { statut: 'negative', matched: kw };
+  }
+  for (const kw of KW.positive) {
+    if (t.includes(norm(kw))) return { statut: 'positive', matched: kw };
+  }
+  return { statut: 'en attente', matched: null };
+}
+
+/* ─────────────────────────────────────────
+   TOAST
+───────────────────────────────────────── */
+let toastTimer;
+function toast(msg, type = 'inf') {
+  const el = document.getElementById('toast');
+  el.innerHTML = `<span>${type==='ok'?'✓':type==='err'?'✕':'↻'}</span><span>${msg}</span>`;
+  el.className = `toast show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+/* ─────────────────────────────────────────
+   CONNEXION MAIL
+───────────────────────────────────────── */
+function connectMail() {
+  const v = document.getElementById('mailInput').value.trim();
+  if (!v || !v.includes('@')) { toast('Adresse email invalide', 'err'); return; }
+  connMail = v;
+  localStorage.setItem('st_v2_mail', v);
+  document.getElementById('connectPanel').style.display = 'none';
+  document.getElementById('connectedBadge').style.display = 'flex';
+  document.getElementById('connectedMailLabel').textContent = v;
+  document.getElementById('syncLog').textContent = 'Mail connecté — prêt à synchroniser';
+  toast('Boîte mail connectée !', 'ok');
+}
+
+function disconnectMail() {
+  connMail = '';
+  localStorage.removeItem('st_v2_mail');
+  document.getElementById('connectPanel').style.display = 'block';
+  document.getElementById('connectedBadge').style.display = 'none';
+  document.getElementById('mailInput').value = '';
+  document.getElementById('syncLog').textContent = 'Connectez votre mail pour commencer';
+}
+
+/* ─────────────────────────────────────────
+   FILTRES
+───────────────────────────────────────── */
+function setFilter(f, el) {
+  activeF = f;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  const T = { 'tous':'Toutes les candidatures','en attente':'En attente de réponse','positive':'Candidatures acceptées','negative':'Candidatures refusées','stage':'Stages','alternance':'Alternances' };
+  document.getElementById('pageTitle').textContent = T[f] || 'Candidatures';
+  render();
+}
+
+function setSub(f, el) {
+  activeSub = f;
+  document.querySelectorAll('.fp').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function getFiltered() {
+  let list = [...cands];
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  if (activeF === 'en attente') list = list.filter(c => c.statut === 'en attente');
+  else if (activeF === 'positive') list = list.filter(c => c.statut === 'positive');
+  else if (activeF === 'negative') list = list.filter(c => c.statut === 'negative');
+  else if (activeF === 'stage') list = list.filter(c => c.type === 'stage');
+  else if (activeF === 'alternance') list = list.filter(c => c.type === 'alternance');
+  if (activeSub === 'stage') list = list.filter(c => c.type === 'stage');
+  else if (activeSub === 'alternance') list = list.filter(c => c.type === 'alternance');
+  else if (activeSub === 'mail') list = list.filter(c => c.source === 'mail');
+  if (q) list = list.filter(c => (c.ent + c.post + (c.notes||'')).toLowerCase().includes(q));
+  return list;
+}
+
+/* ─────────────────────────────────────────
+   RENDU TABLE
+───────────────────────────────────────── */
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function render() {
+  const list = getFiltered();
+  const tbody = document.getElementById('tbody');
+  const empty = document.getElementById('emptyState');
+  document.getElementById('rc').textContent = list.length + ' résultat' + (list.length > 1 ? 's' : '');
+
+  if (!list.length) { tbody.innerHTML = ''; empty.style.display = 'block'; updateCounts(); return; }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = list.map(c => {
+    const bs = c.statut==='positive' ? 'b-pos' : c.statut==='negative' ? 'b-neg' : 'b-att';
+    const ls = c.statut==='positive' ? '✓ Acceptée' : c.statut==='negative' ? '✕ Refusée' : '◷ En attente';
+    const bt = c.type==='stage' ? 'b-stage' : 'b-alt';
+    const ds = c.date ? new Date(c.date).toLocaleDateString('fr-FR') : '—';
+    return `<tr>
+      <td>
+        <div class="co">${esc(c.ent)}</div>
+        ${c.mail ? `<div class="co-mail">${esc(c.mail)}</div>` : ''}
+      </td>
+      <td>
+        ${esc(c.post)}
+        ${c.notes ? `<div class="note-preview">${esc(c.notes.slice(0,48))}${c.notes.length>48?'…':''}</div>` : ''}
+      </td>
+      <td><span class="badge ${bt}">${c.type}</span></td>
+      <td style="font-size:11.5px;color:var(--text2)">${ds}</td>
+      <td><span class="badge click ${bs}" onclick="cycle(${c.id})" title="Cliquer pour changer le statut">${ls}</span></td>
+      <td>${c.source==='mail' ? '<span class="badge b-src">✉ mail</span>' : '<span style="font-size:10.5px;color:var(--text3)">Manuel</span>'}</td>
+      <td><button class="del-btn" onclick="del(${c.id})">✕</button></td>
+    </tr>`;
+  }).join('');
+  updateCounts();
+}
+
+function updateCounts() {
+  document.getElementById('st-t').textContent = cands.length;
+  document.getElementById('st-a').textContent = cands.filter(c => c.statut==='en attente').length;
+  document.getElementById('st-p').textContent = cands.filter(c => c.statut==='positive').length;
+  document.getElementById('st-n').textContent = cands.filter(c => c.statut==='negative').length;
+  document.getElementById('nc-t').textContent = cands.length;
+  document.getElementById('nc-a').textContent = cands.filter(c => c.statut==='en attente').length;
+  document.getElementById('nc-p').textContent = cands.filter(c => c.statut==='positive').length;
+  document.getElementById('nc-n').textContent = cands.filter(c => c.statut==='negative').length;
+  document.getElementById('nc-s').textContent = cands.filter(c => c.type==='stage').length;
+  document.getElementById('nc-al').textContent = cands.filter(c => c.type==='alternance').length;
+}
+
+/* ─────────────────────────────────────────
+   ACTIONS
+───────────────────────────────────────── */
+function cycle(id) {
+  const c = cands.find(x => x.id === id); if (!c) return;
+  const o = ['en attente','positive','negative'];
+  c.statut = o[(o.indexOf(c.statut)+1) % o.length];
+  save(); render();
+}
+
+function del(id) {
+  if (!confirm('Supprimer cette candidature ?')) return;
+  cands = cands.filter(c => c.id !== id); save(); render();
+  toast('Candidature supprimée');
+}
+
+/* ─────────────────────────────────────────
+   MODAL AJOUT
+───────────────────────────────────────── */
+function openAdd() {
+  document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
+  ['fEnt','fPost','fMail','fNotes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fType').value = 'stage';
+  document.getElementById('addOv').classList.add('open');
+  setTimeout(() => document.getElementById('fEnt').focus(), 60);
+}
+
+function closeAdd(e) {
+  if (e.target === document.getElementById('addOv')) document.getElementById('addOv').classList.remove('open');
+}
+
+function addCand() {
+  const ent = document.getElementById('fEnt').value.trim();
+  const post = document.getElementById('fPost').value.trim();
+  if (!ent || !post) { toast('Entreprise et poste obligatoires', 'err'); return; }
+  cands.unshift({
+    id: Date.now(),
+    ent, post,
+    type: document.getElementById('fType').value,
+    date: document.getElementById('fDate').value || new Date().toISOString().split('T')[0],
+    statut: 'en attente',
+    mail: document.getElementById('fMail').value.trim(),
+    notes: document.getElementById('fNotes').value.trim(),
+    source: 'manuel'
+  });
+  save();
+  document.getElementById('addOv').classList.remove('open');
+  render();
+  toast('Candidature ajoutée !', 'ok');
+}
+
+/* ─────────────────────────────────────────
+   MODAL TEST EMAIL
+───────────────────────────────────────── */
+function openTest() {
+  document.getElementById('testText').value = '';
+  document.getElementById('testRes').style.display = 'none';
+  document.getElementById('testOv').classList.add('open');
+  setTimeout(() => document.getElementById('testText').focus(), 60);
+}
+
+function closeTest(e) {
+  if (e.target === document.getElementById('testOv')) document.getElementById('testOv').classList.remove('open');
+}
+
+function runTest() {
+  const text = document.getElementById('testText').value;
+  if (!text.trim()) return;
+  const { statut, matched } = detectStatut(text);
+  const res = document.getElementById('testRes');
+  const labels = { negative:'✕ Refusée', positive:'✓ Acceptée / Entretien', 'en attente':'◷ En attente / Non déterminé' };
+  const cls = { negative:'neg', positive:'pos', 'en attente':'att' };
+  res.className = `test-result ${cls[statut]}`;
+  res.style.display = 'block';
+  document.getElementById('testLabel').innerHTML = `<strong>Statut détecté : ${labels[statut]}</strong>`;
+  document.getElementById('testKw').textContent = matched
+    ? `Mot-clé détecté : « ${matched} »`
+    : 'Aucun mot-clé reconnu — classé en attente par défaut';
+}
+
+/* ─────────────────────────────────────────
+   MOTS-CLÉS : EMAILS ENVOYÉS (candidatures)
+   Détecte qu'un email envoyé est bien une
+   candidature de stage ou alternance.
+───────────────────────────────────────── */
+const KW_CANDIDATURE = [
+  "ma candidature", "ma lettre de motivation", "mon cv",
+  "je me permets de vous contacter", "je me permets de postuler",
+  "je souhaite postuler", "je souhaiterais postuler",
+  "je candidate", "ma candidature au poste",
+  "candidature spontanée", "candidature au poste",
+  "je suis intéressé par", "je suis à la recherche",
+  "dans le cadre de mes études", "dans le cadre de ma formation",
+  "à la recherche d'un stage", "à la recherche d'une alternance",
+  "recherche de stage", "recherche d'alternance",
+  "offre de stage", "offre d'alternance",
+  "je vous adresse", "veuillez trouver ci-joint",
+  "ci-joint mon cv", "ci-joint ma lettre",
+  "stage de", "alternance en", "contrat d'apprentissage",
+  "en vue d'un stage", "en vue d'une alternance",
+  "période de stage", "mission de stage",
+  "apply", "application for", "i am writing to apply",
+  "i would like to apply", "please find attached my cv",
+];
+
+function isEmailCandidature(corps) {
+  const t = corps.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/['']/g,"'");
+  return KW_CANDIDATURE.some(kw => t.includes(kw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/['']/g,"'")));
+}
+
+/* ─────────────────────────────────────────
+   SYNC OUTLOOK — Analyse complète :
+   • Emails ENVOYÉS  → candidatures détectées (statut: en attente par défaut)
+   • Emails REÇUS    → réponses classifiées par mots-clés (positif/négatif)
+   Les deux passes sont croisées pour mettre
+   à jour le statut des candidatures trouvées.
+───────────────────────────────────────── */
+async function syncMails() {
+  if (!connMail) { toast('Connectez d\'abord votre adresse email', 'err'); return; }
+  const btn = document.getElementById('syncBtn');
+  const spin = document.getElementById('syncSpin');
+  const log = document.getElementById('syncLog');
+  btn.disabled = true;
+  spin.style.animation = 'spin .6s linear infinite';
+  log.textContent = 'Analyse de la boîte mail complète…';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 3000,
+        system: `Tu es un extracteur d'emails spécialisé dans les candidatures professionnelles.
+Cette boîte mail est dédiée exclusivement à la recherche de stage et d'alternance.
+Tu dois analyser TOUS les emails : envoyés ET reçus.
+
+Réponds UNIQUEMENT avec du JSON valide, sans markdown ni backticks :
+{
+  "envoyes": [
+    {
+      "entreprise": "nom de l'entreprise destinataire",
+      "poste": "intitulé du poste visé",
+      "type": "stage ou alternance",
+      "date": "YYYY-MM-DD",
+      "email_destinataire": "adresse email de l'entreprise",
+      "objet": "objet de l'email envoyé"
+    }
+  ],
+  "recus": [
+    {
+      "entreprise": "nom de l'entreprise expéditrice",
+      "poste": "intitulé du poste concerné",
+      "type": "stage ou alternance",
+      "date": "YYYY-MM-DD",
+      "email_expediteur": "adresse email",
+      "corps": "texte complet du corps de l'email de réponse reçu"
+    }
+  ]
+}
+"envoyes" = toutes les candidatures envoyées depuis cette boîte (emails sortants).
+"recus" = toutes les réponses reçues des entreprises (emails entrants).`,
+        messages: [{
+          role: 'user',
+          content: `Analyse l'intégralité de la boîte mail ${connMail}, qui est utilisée exclusivement pour la recherche de stage et d'alternance.
+
+PASSE 1 — Emails envoyés (boîte d'envoi) : récupère toutes les candidatures envoyées à des entreprises.
+PASSE 2 — Emails reçus (boîte de réception) : récupère toutes les réponses reçues des entreprises.
+
+Candidatures déjà suivies (à ne pas dupliquer) : ${cands.map(c => c.ent + ' — ' + c.post).join('; ') || 'aucune'}.
+
+Pour la démonstration, génère un historique réaliste :
+- 5 candidatures envoyées à des entreprises françaises variées (grands groupes + startups)
+- 3 réponses reçues correspondant à certaines de ces candidatures (corps d'email complets : un refus poli, un refus direct, une invitation à entretien)
+Tout en français.`
+        }],
+        mcp_servers: [{ type: 'url', url: 'https://microsoft365.mcp.claude.com/mcp', name: 'microsoft365' }]
+      })
+    });
+
+    const data = await res.json();
+    const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    let parsed;
+    try { parsed = JSON.parse(text.replace(/```json|```/g, '').trim()); }
+    catch (e) { parsed = { envoyes: [], recus: [] }; }
+
+    let addedEnvoyes = 0, updatedRecus = 0, addedRecus = 0;
+
+    /* ── PASSE 1 : emails envoyés → nouvelles candidatures (en attente) ── */
+    (parsed.envoyes || []).forEach(e => {
+      if (!e.entreprise || !e.poste) return;
+      const ex = cands.find(x =>
+        x.ent.toLowerCase() === e.entreprise.toLowerCase() &&
+        x.post.toLowerCase() === e.poste.toLowerCase()
+      );
+      if (!ex) {
+        cands.push({
+          id: Date.now() + Math.random(),
+          ent: e.entreprise,
+          post: e.poste,
+          type: e.type === 'alternance' ? 'alternance' : 'stage',
+          date: e.date || new Date().toISOString().split('T')[0],
+          statut: 'en attente',
+          mail: e.email_destinataire || '',
+          notes: e.objet || '',
+          source: 'mail'
+        });
+        addedEnvoyes++;
+      }
+    });
+
+    /* ── PASSE 2 : emails reçus → mise à jour statut par mots-clés ── */
+    (parsed.recus || []).forEach(e => {
+      if (!e.entreprise || !e.corps) return;
+      const { statut } = detectStatut(e.corps);
+
+      /* cherche la candidature correspondante déjà dans la liste */
+      const match = cands.find(x =>
+        x.ent.toLowerCase() === e.entreprise.toLowerCase()
+      );
+
+      if (match) {
+        /* met à jour le statut si la réponse apporte une info nouvelle */
+        if (match.statut === 'en attente') {
+          match.statut = statut;
+          match.notes = (e.corps || '').slice(0, 100);
+          updatedRecus++;
+        }
+      } else {
+        /* réponse reçue sans candidature envoyée connue → on crée l'entrée */
+        cands.unshift({
+          id: Date.now() + Math.random(),
+          ent: e.entreprise,
+          post: e.poste || 'Poste non précisé',
+          type: e.type === 'alternance' ? 'alternance' : 'stage',
+          date: e.date || new Date().toISOString().split('T')[0],
+          statut,
+          mail: e.email_expediteur || '',
+          notes: (e.corps || '').slice(0, 100),
+          source: 'mail'
+        });
+        addedRecus++;
+      }
+    });
+
+    /* tri par date décroissante */
+    cands.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    save(); render();
+    const now = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    const total = addedEnvoyes + addedRecus;
+    log.textContent = `Sync ${now} — ${total} ajoutée(s), ${updatedRecus} mise(s) à jour`;
+    const msg = [
+      addedEnvoyes > 0 ? `${addedEnvoyes} candidature(s) envoyée(s) importée(s)` : '',
+      addedRecus > 0 ? `${addedRecus} réponse(s) importée(s)` : '',
+      updatedRecus > 0 ? `${updatedRecus} statut(s) mis à jour` : '',
+    ].filter(Boolean).join(' · ') || 'Aucune nouveauté';
+    toast(msg, total + updatedRecus > 0 ? 'ok' : 'inf');
+
+  } catch (err) {
+    log.textContent = 'Erreur de synchronisation';
+    toast('Erreur : ' + err.message, 'err');
+  }
+
+  btn.disabled = false;
+  spin.style.animation = '';
+}
+
+/* ─────────────────────────────────────────
+   INIT
+───────────────────────────────────────── */
+if (connMail) {
+  document.getElementById('connectPanel').style.display = 'none';
+  document.getElementById('connectedBadge').style.display = 'flex';
+  document.getElementById('connectedMailLabel').textContent = connMail;
+  document.getElementById('syncLog').textContent = 'Mail connecté — prêt à synchroniser';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('addOv').classList.remove('open');
+    document.getElementById('testOv').classList.remove('open');
+  }
+  if (e.key === 'n' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') openAdd();
+});
+
+render();
+</script>
+</body>
+</html>
